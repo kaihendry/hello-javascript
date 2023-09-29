@@ -3,8 +3,13 @@ AWS_REGION = eu-west-2
 VERSION = $(shell git rev-parse --abbrev-ref HEAD)-$(shell git rev-parse --short HEAD)
 SAM_CLI_TELEMETRY=0
 
-deploy:
+build:
 	sam build --beta-features
+
+test:
+	npm run test
+
+deploy:
 	sam deploy --no-progressbar --resolve-s3 \
 	 --stack-name $(STACK) --parameter-overrides Version=$(VERSION) \
 	 --no-confirm-changeset --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM
