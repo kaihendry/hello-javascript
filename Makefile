@@ -15,7 +15,7 @@ deploy:
 	 --no-confirm-changeset --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM
 
 validate:
-	aws cloudformation validate-template --template-body file://template.yaml
+	sam validate
 
 destroy:
 	aws cloudformation delete-stack --stack-name $(STACK)
