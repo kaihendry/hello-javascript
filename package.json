@@ -9,6 +9,7 @@
   "description": "This project contains source code and supporting files for a serverless application that you can deploy with the [SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html). The Serverless Application Model Command Line Interface (SAM CLI) is an extension of the AWS CLI that adds functionality for building and testing Lambda applications. It uses Docker to run your functions in an Amazon Linux environment that matches Lambda. It can also emulate your application's build environment and API.",
   "license": "MIT-0",
   "scripts": {
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/app.ts",
     "build": "echo 'Not applicable, run `sam build --beta-features` instead to build the stack'",
     "test": "npm run test:unit",
     "start": "npx ts-node src/app.ts",
@@ -27,6 +28,7 @@
     "@types/node": "^20.6.1",
     "@types/supertest": "^2.0.13",
     "jest": "^29.7.0",
+    "nodemon": "^3.0.1",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
