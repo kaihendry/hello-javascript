@@ -23,6 +23,10 @@ destroy:
 sam-tail-logs:
 	sam logs --stack-name $(STACK) --tail
 
+developslowly: build
+	export DOCKER_HOST="unix://$HOME/.colima/docker.sock"
+	sam local start-api
+
 sync:
 	sam sync --watch --stack-name $(STACK)
 
