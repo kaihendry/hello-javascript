@@ -1,8 +1,10 @@
 import express from 'express';
+import { logger } from './powertools';
 
 const app = express();
 
 app.get('/', (req, res) => {
+  logger.info("oh hai", { ip: req.ip });
   res.send('Hello World!');
 });
 

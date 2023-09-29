@@ -32,3 +32,6 @@ sync:
 
 sam-list-endpoints:
 	sam list stack-outputs --stack-name $(STACK)
+
+sloc:
+	scc --ci

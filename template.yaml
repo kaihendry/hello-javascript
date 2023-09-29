@@ -4,9 +4,9 @@ Description: >
   simple-node-api
   Sample SAM Template for simple-node-api
 
-Globals:
-  Function:
-    Timeout: 3
+Parameters:
+  Version:
+    Type: String
 
 Resources:
   ExpressBackend:
@@ -20,6 +20,9 @@ Resources:
           Properties:
             Path: /{proxy+}
             Method: get
+      Environment:
+        Variables:
+          VERSION: !Ref Version
     Metadata:
       BuildMethod: esbuild
 
