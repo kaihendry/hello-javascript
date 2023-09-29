@@ -5,11 +5,12 @@ import { default as request } from 'phin';
 
 export const getUuid = async (): Promise<string> => {
   const uuidApiUrl = await getParameter('/app/uuid-api-url');
+  logger.info("here testing only")
   if (!uuidApiUrl) {
     // create uuid locally
     logger.warn('No uuid-api-url parameter found, creating uuid locally');
 
-    return randomUUID();
+    return "hello world";
   } else {
     // Request a sample random uuid from a webservice
     const res = await request<{ uuid: string }>({
