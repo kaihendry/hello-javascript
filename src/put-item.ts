@@ -1,11 +1,11 @@
 import {
     APIGatewayProxyEventV2,
-    APIGatewayProxyResultV2
+    APIGatewayProxyStructuredResultV2
 } from 'aws-lambda';
 
 export async function putItemHandler(
     event: APIGatewayProxyEventV2
-): Promise<APIGatewayProxyResultV2> {
+): Promise<APIGatewayProxyStructuredResultV2> {
 
     console.info('received:', { event });
 

@@ -14,8 +14,6 @@ describe('Test putItemHandler', function () {
             },
             body: ''
         } as APIGatewayProxyEventV2);
-        expect(result).toStrictEqual({
-            statusCode: 200
-        })
+        expect(result.statusCode).toBe(200)
     });
 });
