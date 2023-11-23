@@ -21,7 +21,7 @@ Resources:
           PayloadFormatVersion: "2.0"
           Type: HttpApi
           Properties:
-            Path: /
+            Path: /foobar
             Method: POST
     Metadata:
       BuildMethod: esbuild

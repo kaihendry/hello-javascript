@@ -15,6 +15,9 @@ export async function putItemHandler(
 
     const response = {
         statusCode: 200,
+        body: JSON.stringify({
+            message: 'post method executed successfully!',
+        }),
     };
 
     return response;

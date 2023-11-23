@@ -32,3 +32,5 @@ jobs:
           aws-region: eu-west-2
       - name: Deploy
         run: make deploy
+      - name: API gw info
+        run: make apigw
