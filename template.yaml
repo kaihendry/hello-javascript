@@ -1,39 +1,43 @@
-AWSTemplateFormatVersion: "2010-09-09"
-Transform: AWS::Serverless-2016-10-31
-Description: >
-  simple-node-api
-  Sample SAM Template for simple-node-api
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  web-app
+Transform:
+  - AWS::Serverless-2016-10-31
 
-Parameters:
-  Version:
-    Type: String
-
+# Resources declares the AWS resources that you want to include in the stack
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
 Resources:
-  ExpressBackend:
+  putItemFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/handler.main
+      Handler: src/handlers/put-item.putItemHandler
       Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
       Events:
-        HelloWorld:
+        RootResource:
+          PayloadFormatVersion: "2.0"
           Type: HttpApi
           Properties:
-            Path: /{proxy+}
-            Method: get
-      Environment:
-        Variables:
-          VERSION: !Ref Version
+            Path: /
+            Method: POST
     Metadata:
       BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "ES2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/handlers/put-item.ts
 
 Outputs:
-  HelloWorldApi:
-    Description: API Gateway endpoint URL for Prod stage for Hello World function
-    Value:
-      Fn::Sub: https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/
-  ExpressBackendFunction:
-    Description: Express Backend Lambda Function ARN
-    Value: !Sub ExpressBackend.Arn
-  ExpressBackendIamRole:
-    Description: Implicit IAM Role created for Hello World function
-    Value: !Sub ExpressBackendFunctionRole.Arn
+  WebEndpoint:
+    Description: API Gateway endpoint URL for Prod stage
+    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/"
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    LoggingConfig:
+      LogFormat: JSON

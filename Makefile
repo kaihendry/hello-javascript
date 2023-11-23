@@ -6,7 +6,7 @@ SAM_CLI_TELEMETRY=0
 build:
 	sam build --beta-features
 
-test:
+test: build
 	npm run test
 
 deploy: build
