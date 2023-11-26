@@ -13,12 +13,10 @@ export async function putItemHandler(
         throw new Error(`postMethod only accepts POST method, you tried: ${event?.requestContext?.http?.method} method.`);
     }
 
-    const response = {
+    return {
         statusCode: 200,
         body: JSON.stringify({
             message: 'post method executed successfully!',
         }),
     };
-
-    return response;
 };

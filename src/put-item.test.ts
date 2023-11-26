@@ -12,7 +12,6 @@ describe('Test putItemHandler', function () {
                     path: '/api/unknown'
                 }
             },
-            body: ''
         } as APIGatewayProxyEventV2);
         expect(result.statusCode).toBe(200)
     });
