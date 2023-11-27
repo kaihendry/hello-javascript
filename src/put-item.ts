@@ -7,7 +7,8 @@ export async function putItemHandler(
     event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyStructuredResultV2> {
 
-    console.info('received:', { event });
+    console.log('vanilla console.log');
+    console.info('informational');
     console.warn("You should be careful");
     console.debug("devil is in the details");
     console.error("You made a mistake");
