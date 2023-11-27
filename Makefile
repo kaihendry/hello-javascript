@@ -41,3 +41,4 @@ apigw:
 	aws apigatewayv2 get-stages --api-id zok7d0be80
 	aws apigatewayv2 get-integrations --api-id zok7d0be80
 	aws apigatewayv2 get-routes --api-id zok7d0be80
+	aws apigatewayv2 get-deployments --api-id zok7d0be80
