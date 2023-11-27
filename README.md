@@ -1,4 +1,4 @@
-# JSON structure logs
+# JSON structured logs
 
 ![image](https://github.com/kaihendry/hello-javascript/assets/765871/dafa0a25-dc07-4048-ba76-83715e17fc04)
 
