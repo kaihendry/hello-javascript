@@ -8,6 +8,10 @@ export async function putItemHandler(
 ): Promise<APIGatewayProxyStructuredResultV2> {
 
     console.info('received:', { event });
+    console.warn("You should be careful");
+    console.debug("devil is in the details");
+    console.error("You made a mistake");
+
 
     if (event?.requestContext?.http?.method !== 'POST') {
         throw new Error(`postMethod only accepts POST method, you tried: ${event?.requestContext?.http?.method} method.`);
