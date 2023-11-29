@@ -4,6 +4,11 @@ Description: >-
 Transform:
   - AWS::Serverless-2016-10-31
 
+Parameters:
+  Version:
+    Type: String
+    Description: The version of the application
+
 Resources:
   LogGroup:
     Type: AWS::Logs::LogGroup
@@ -27,6 +32,9 @@ Resources:
           Properties:
             Path: /
             Method: POST
+      Environment:
+        Variables:
+          VERSION: !Ref Version
     Metadata:
       BuildMethod: esbuild
       BuildProperties:

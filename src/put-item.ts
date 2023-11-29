@@ -31,6 +31,7 @@ export async function putItemHandler(
     return {
         statusCode: 200,
         body: JSON.stringify({
+            version: process.env['VERSION'],
             message: parameter,
         }),
     };
