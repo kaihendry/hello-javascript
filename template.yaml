@@ -8,7 +8,7 @@ Resources:
   LogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: /aws/lambda/${ServerlessHttpApi}-putItemFunction
+      LogGroupName: /aws/lambda/powertools-demo
       RetentionInDays: 30
   putItemFunction:
     Type: AWS::Serverless::Function
@@ -17,6 +17,7 @@ Resources:
         - AmazonSSMReadOnlyAccess
       Handler: src/put-item.putItemHandler
       Runtime: nodejs18.x
+      LogGroupName: !Ref LogGroup
       Architectures:
         - x86_64
       MemorySize: 128
