@@ -10,6 +10,8 @@ Resources:
   putItemFunction:
     Type: AWS::Serverless::Function
     Properties:
+      Policies:
+        - AmazonSSMReadOnlyAccess
       Handler: src/put-item.putItemHandler
       Runtime: nodejs18.x
       Architectures:
