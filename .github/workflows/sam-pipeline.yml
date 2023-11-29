@@ -22,7 +22,6 @@ jobs:
       - uses: aws-actions/setup-sam@v2
         with:
           use-installer: true
-      - run: make build
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::407461997746:role/github-actions-Role-56IHHM969DKJ
@@ -32,7 +31,17 @@ jobs:
       # get the api gateway url
       - name: Get API Gateway URL
         id: get_api_url
-        run: echo "::set-output name=url::$(aws cloudformation describe-stacks --stack-name powertools-demo --query 'Stacks[0].Outputs[?OutputKey==`WebEndpoint`].OutputValue' --output text)"
-        # post to the url to test it
+        # use GITHUB_OUTPUT instead
+        run: echo ENDPOINT=$(aws cloudformation describe-stacks --stack-name powertools-demo --query 'Stacks[0].Outputs[?OutputKey==`WebEndpoint`].OutputValue' --output text) >> "$GITHUB_OUTPUT"
       - name: Test API Gateway URL
-        run: curl -X POST -d '{"name":"test"}' ${{ steps.get_api_url.outputs.url }}
+        env:
+          URL: ${{ steps.get_api_url.ENDPOINT }}
+        run: curl -s -v -X POST $URL
+      - name: Generate list using Markdown
+        env:
+          URL: ${{ steps.get_api_url.ENDPOINT }}
+        run: |
+          echo "# We deployed! :rocket:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+          echo "- Version $(make showversion)" >> $GITHUB_STEP_SUMMARY
+          echo "- Endpoint $URL" >> $GITHUB_STEP_SUMMARY

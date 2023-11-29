@@ -30,6 +30,9 @@ sync:
 sam-list-endpoints:
 	sam list stack-outputs --stack-name $(STACK)
 
+showversion:
+	@echo $(VERSION)
+
 sloc:
 	scc --ci
 
