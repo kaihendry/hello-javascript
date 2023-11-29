@@ -6,9 +6,6 @@ SAM_CLI_TELEMETRY=0
 build:
 	sam build --beta-features
 
-test: build
-	npm run test
-
 deploy: build
 	sam deploy --no-progressbar --resolve-s3 \
 	 --stack-name $(STACK) --parameter-overrides Version=$(VERSION) \
