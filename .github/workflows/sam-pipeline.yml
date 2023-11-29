@@ -32,7 +32,7 @@ jobs:
       # get the api gateway url
       - name: Get API Gateway URL
         id: get_api_url
-        run: echo "::set-output name=url::$(aws cloudformation describe-stacks --stack-name github-actions-aws-sam --query 'Stacks[0].Outputs[?OutputKey==`ApiUrl`].OutputValue' --output text)"
+        run: echo "::set-output name=url::$(aws cloudformation describe-stacks --stack-name powertools-demo --query 'Stacks[0].Outputs[?OutputKey==`WebEndpoint`].OutputValue' --output text)"
         # post to the url to test it
       - name: Test API Gateway URL
         run: curl -X POST -d '{"name":"test"}' ${{ steps.get_api_url.outputs.url }}
