@@ -27,14 +27,12 @@ jobs:
           role-to-assume: arn:aws:iam::407461997746:role/github-actions-Role-56IHHM969DKJ
           aws-region: eu-west-2
       - run: make deploy
-      - run: make apigw
-      # get the api gateway url
       - name: Get API Gateway URL
         id: get_api_url
         run: echo ENDPOINT=$(aws cloudformation describe-stacks --stack-name powertools-demo --query 'Stacks[0].Outputs[?OutputKey==`WebEndpoint`].OutputValue' --output text) >> "$GITHUB_OUTPUT"
       - name: Generate list using Markdown
         env:
-          URL: ${{ steps.get_api_url.ENDPOINT }}
+          URL: ${{ steps.get_api_url.outputs.ENDPOINT }}
         run: |
           echo "# We deployed! :rocket:" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
@@ -42,5 +40,5 @@ jobs:
           echo "- Endpoint $URL" >> $GITHUB_STEP_SUMMARY
       -  name: Test API Gateway URL
          env:
-            URL: ${{ steps.get_api_url.ENDPOINT }}
-         run: curl -s -v -X POST ${{ env.URL }}
+            URL: ${{ steps.get_api_url.outputs.ENDPOINT }}
+         run: curl -s -v -X POST $URL
