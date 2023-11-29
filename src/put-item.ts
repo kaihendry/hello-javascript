@@ -6,6 +6,11 @@ import {
 
 import { getParameter } from '@aws-lambda-powertools/parameters/ssm';
 
+// wrap getParameter with a console.info log on the named parameter
+function logParameter(name: string): Promise<string> {
+    console.info(`Getting parameter ${name}`);
+    return getParameter(name) as Promise<string>;
+}
 
 export async function putItemHandler(
     event: APIGatewayProxyEventV2,
@@ -13,20 +18,11 @@ export async function putItemHandler(
 
 ): Promise<APIGatewayProxyStructuredResultV2> {
 
-    console.log('vanilla console.log');
-    console.info('informational');
-    console.warn("You should be careful");
-    console.debug("devil is in the details");
-    console.error("You made a mistake");
-
-
     if (event?.requestContext?.http?.method !== 'POST') {
         throw new Error(`postMethod only accepts POST method, you tried: ${event?.requestContext?.http?.method} method.`);
     }
 
-    const parameter = await getParameter('/dev/message');
-
-    console.log('parameter', { parameter, context });
+    const parameter = await logParameter('/dev/message');
 
     return {
         statusCode: 200,
