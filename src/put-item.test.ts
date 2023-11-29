@@ -1,4 +1,4 @@
-import type { APIGatewayProxyEventV2 } from 'aws-lambda';
+import type { APIGatewayProxyEventV2, Context } from 'aws-lambda';
 import { putItemHandler } from './put-item';
 import { getParameter } from '@aws-lambda-powertools/parameters/ssm';
 
@@ -26,7 +26,7 @@ describe('Test putItemHandler', function () {
                     path: '/api/unknown'
                 }
             },
-        } as APIGatewayProxyEventV2);
+        } as APIGatewayProxyEventV2, {} as Context);
 
         expect(result.statusCode).toBe(200);
 

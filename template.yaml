@@ -4,9 +4,12 @@ Description: >-
 Transform:
   - AWS::Serverless-2016-10-31
 
-# Resources declares the AWS resources that you want to include in the stack
-# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
 Resources:
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/lambda/${ServerlessHttpApi}-putItemFunction
+      RetentionInDays: 30
   putItemFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -38,7 +41,9 @@ Outputs:
   WebEndpoint:
     Description: API Gateway endpoint URL for Prod stage
     Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/"
-# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+  LogGroupName:
+    Value: !Ref LogGroup
+
 Globals:
   Function:
     LoggingConfig:

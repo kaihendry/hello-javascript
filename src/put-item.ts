@@ -1,13 +1,16 @@
 import {
     APIGatewayProxyEventV2,
-    APIGatewayProxyStructuredResultV2
+    APIGatewayProxyStructuredResultV2,
+    Context
 } from 'aws-lambda';
 
 import { getParameter } from '@aws-lambda-powertools/parameters/ssm';
 
 
 export async function putItemHandler(
-    event: APIGatewayProxyEventV2
+    event: APIGatewayProxyEventV2,
+    context: Context
+
 ): Promise<APIGatewayProxyStructuredResultV2> {
 
     console.log('vanilla console.log');
@@ -22,6 +25,8 @@ export async function putItemHandler(
     }
 
     const parameter = await getParameter('/dev/message');
+
+    console.log('parameter', { parameter, context });
 
     return {
         statusCode: 200,

@@ -1,5 +1,3 @@
-name: Build and deploy
-
 on:
   push:
     branches:
@@ -27,11 +25,11 @@ jobs:
           role-to-assume: arn:aws:iam::407461997746:role/github-actions-Role-56IHHM969DKJ
           aws-region: eu-west-2
       - run: make deploy
-      - name: Get API Gateway URL
-        id: get_api_url
-        run: echo ENDPOINT=$(aws cloudformation describe-stacks --stack-name powertools-demo --query 'Stacks[0].Outputs[?OutputKey==`WebEndpoint`].OutputValue' --output text) >> "$GITHUB_OUTPUT"
-      - name: Generate list using Markdown
-        env:
+      - id: get_api_url
+        run: |
+         echo ENDPOINT=$(aws cloudformation describe-stacks --stack-name powertools-demo --query 'Stacks[0].Outputs[?OutputKey==`WebEndpoint`].OutputValue' --output text) >> "$GITHUB_OUTPUT"
+         echo LOGGROUP=$(aws cloudformation describe-stacks --stack-name powertools-demo --query 'Stacks[0].Outputs[?OutputKey==`LogGroupName`].OutputValue' --output text) >> "$GITHUB_OUTPUT"
+      - env:
           URL: ${{ steps.get_api_url.outputs.ENDPOINT }}
         run: |
           echo "# We deployed! :rocket:" >> $GITHUB_STEP_SUMMARY
@@ -41,4 +39,7 @@ jobs:
       -  name: Test API Gateway URL
          env:
             URL: ${{ steps.get_api_url.outputs.ENDPOINT }}
-         run: curl -s -v -X POST $URL
+         run: curl -s -X POST $URL
+      - env:
+          LOGGROUP: ${{ steps.get_api_url.outputs.LOGGROUP }}
+        run: aws logs tail $LOGGROUP
