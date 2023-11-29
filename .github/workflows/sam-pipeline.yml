@@ -43,4 +43,4 @@ jobs:
       -  name: Test API Gateway URL
          env:
             URL: ${{ steps.get_api_url.ENDPOINT }}
-         run: curl -s -v -X POST ${{ env.ENDPOINT }}
+         run: curl -s -v -X POST ${{ env.URL }}
