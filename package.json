@@ -5,7 +5,7 @@
     "private": true,
     "dependencies": {
         "@aws-lambda-powertools/parameters": "^1.17.0",
-        "@aws-sdk/client-ssm": "^3.461.0",
+        "@aws-sdk/client-ssm": "^3.462.0",
         "esbuild": "^0.19.7"
     },
     "devDependencies": {
