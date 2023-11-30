@@ -30,7 +30,7 @@ showversion:
 	@echo $(VERSION)
 
 sloc:
-	scc --ci
+	scc --ci -x json
 
 apigw:
 	aws apigatewayv2 get-api --api-id zok7d0be80

@@ -8,7 +8,7 @@ import { getParameter } from '@aws-lambda-powertools/parameters/ssm';
 
 // wrap getParameter with a console.info log on the named parameter
 function logParameter(name: string): Promise<string> {
-    console.info(`Getting parameter ${name}`);
+    console.info('getting ssm parameter', { name });
     return getParameter(name) as Promise<string>;
 }
 
