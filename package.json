@@ -9,7 +9,7 @@
         "esbuild": "^0.19.7"
     },
     "devDependencies": {
-        "@types/aws-lambda": "^8.10.129",
+        "@types/aws-lambda": "^8.10.130",
         "@types/jest": "^29.5.10",
         "@types/node": "^20.9.4",
         "aws-sdk-client-mock": "^3.0.0",
