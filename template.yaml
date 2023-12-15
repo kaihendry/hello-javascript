@@ -50,8 +50,3 @@ Outputs:
     Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/"
   LogGroupName:
     Value: !Ref LogGroup
-
-Globals:
-  Function:
-    LoggingConfig:
-      LogFormat: JSON
