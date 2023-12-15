@@ -8,7 +8,7 @@ import { Logger } from '@aws-lambda-powertools/logger';
 
 import { getParameter } from '@aws-lambda-powertools/parameters/ssm';
 
-const console = new Logger();
+const console = new Logger({ serviceName: 'put-item', logEvent: true });
 
 // wrap getParameter with a console.info log on the named parameter
 function logParameter(name: string): Promise<string> {
@@ -29,7 +29,9 @@ export async function putItemHandler(
         throw new Error(`postMethod only accepts POST method, you tried: ${event?.requestContext?.http?.method} method.`);
     }
 
+    console.debug("will you see me?")
     const parameter = await logParameter('/dev/message');
+    console.debug("or mee?")
 
     return {
         statusCode: 200,
