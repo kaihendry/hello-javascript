@@ -8,7 +8,7 @@ import { Logger } from '@aws-lambda-powertools/logger';
 
 import { getParameter } from '@aws-lambda-powertools/parameters/ssm';
 
-const console = new Logger({ serviceName: 'put-item', logEvent: true });
+const console = new Logger({ serviceName: 'put-item' });
 
 // wrap getParameter with a console.info log on the named parameter
 function logParameter(name: string): Promise<string> {

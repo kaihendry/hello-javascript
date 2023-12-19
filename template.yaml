@@ -35,6 +35,7 @@ Resources:
       Environment:
         Variables:
           VERSION: !Ref Version
+          POWERTOOLS_LOGGER_LOG_EVENT: true
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
