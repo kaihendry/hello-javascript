@@ -37,7 +37,6 @@
   "scripts": {
     "build": "echo 'Not applicable, run `sam build --beta-features` instead to build the stack'",
     "test": "npm run test:unit",
-    "prepare": "husky install",
     "prettier-check": "prettier --check .",
     "lint": "eslint --ext .ts,.js --no-error-on-unmatched-pattern .",
     "lint-fix": "eslint --fix --ext .ts,.js --fix --no-error-on-unmatched-pattern .",
