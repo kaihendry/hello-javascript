@@ -10,9 +10,8 @@ import { getParameter } from '@aws-lambda-powertools/parameters/ssm';
 
 const console = new Logger({ serviceName: 'put-item' });
 
-// wrap getParameter with a console.info log on the named parameter
 function logParameter(name: string): Promise<string> {
-    console.info('getting ssm parameter', { name });
+    console.debug('getting ssm parameter', { name });
     return getParameter(name) as Promise<string>;
 }
 
@@ -22,7 +21,7 @@ export async function putItemHandler(
 
 ): Promise<APIGatewayProxyStructuredResultV2> {
 
-    console.warn("putItemHandler called");
+    console.info("putItemHandler called");
 
     if (event?.requestContext?.http?.method !== 'POST') {
         console.error(`LOG: postMethod only accepts POST method, you tried: ${event?.requestContext?.http?.method} method.`);
