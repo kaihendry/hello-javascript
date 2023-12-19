@@ -1,23 +1,29 @@
 import type { APIGatewayProxyEventV2, Context } from 'aws-lambda';
 import { putItemHandler } from './put-item';
-import { getParameter } from '@aws-lambda-powertools/parameters/ssm';
-
-jest.mock('@aws-lambda-powertools/parameters/ssm', () => ({
-    getParameter: jest.fn(),
-}));
-
-const mockedGetParameter = getParameter as jest.MockedFunction<
-    typeof getParameter
->;
+import {
+    GetParameterCommand,
+    SSMClient,
+} from '@aws-sdk/client-ssm';
+import { mockClient } from 'aws-sdk-client-mock';
 
 describe('Test putItemHandler', function () {
 
+    const ssmMock = mockClient(SSMClient);
+
     beforeEach(() => {
-        mockedGetParameter.mockClear();
+        ssmMock.reset();
     });
 
+
     it('should handle PUT request', async () => {
-        mockedGetParameter.mockResolvedValue('hello from ssm!');
+
+        const ssmResult = {
+            Parameter: {
+                Name: '/dev/message',
+                Value: 'hello from ssm!',
+            },
+        };
+        ssmMock.on(GetParameterCommand).resolves(ssmResult);
 
         const result = await putItemHandler({
             requestContext: {

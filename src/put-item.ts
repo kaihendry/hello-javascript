@@ -12,8 +12,14 @@ import { getParameter } from '@aws-lambda-powertools/parameters/ssm';
 
 import { createError } from '@middy/util';
 
+export type SecretRetriever = (
+    environmentName: string,
+    parameterName: string
+) => Promise<string | null>;
+
 export interface HandlerArgs {
     environment?: string;
+    secretRetriever?: SecretRetriever;
 }
 
 const logger = new Logger({ serviceName: 'put-item' });
@@ -65,3 +71,9 @@ export const newHandler = (args: HandlerArgs) => {
 export const handler = newHandler({
     environment: process.env['ENV'] || '',
 });
+
+export async function ssmSecretRetriever(
+    parameter: string,
+): Promise<string | null> {
+    return (await getParameter(parameter, { decrypt: true })) ?? null;
+}
