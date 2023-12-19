@@ -4,11 +4,11 @@ on:
   pull_request:
   push:
     branches:
-      - 'main'
+      - "main"
 
 jobs:
   commitlint:
-    name: 'Commitlint'
+    name: "Commitlint"
     runs-on: ubuntu-latest
     steps:
       - name: Check out
@@ -23,7 +23,7 @@ jobs:
         run: pnpm commitlint -f ${{ github.event.pull_request.base.sha }}
 
   eslint:
-    name: 'ESLint'
+    name: "ESLint"
     runs-on: ubuntu-latest
     steps:
       - name: Check out
@@ -36,7 +36,7 @@ jobs:
         run: pnpm lint
 
   prettier:
-    name: 'Prettier'
+    name: "Prettier"
     runs-on: ubuntu-latest
     steps:
       - name: Check out

@@ -25,8 +25,8 @@ jobs:
       - run: make deploy
       - id: get_api_url
         run: |
-         echo ENDPOINT=$(aws cloudformation describe-stacks --stack-name powertools-demo --query 'Stacks[0].Outputs[?OutputKey==`WebEndpoint`].OutputValue' --output text) >> "$GITHUB_OUTPUT"
-         echo LOGGROUP=$(aws cloudformation describe-stacks --stack-name powertools-demo --query 'Stacks[0].Outputs[?OutputKey==`LogGroupName`].OutputValue' --output text) >> "$GITHUB_OUTPUT"
+          echo ENDPOINT=$(aws cloudformation describe-stacks --stack-name powertools-demo --query 'Stacks[0].Outputs[?OutputKey==`WebEndpoint`].OutputValue' --output text) >> "$GITHUB_OUTPUT"
+          echo LOGGROUP=$(aws cloudformation describe-stacks --stack-name powertools-demo --query 'Stacks[0].Outputs[?OutputKey==`LogGroupName`].OutputValue' --output text) >> "$GITHUB_OUTPUT"
       - env:
           URL: ${{ steps.get_api_url.outputs.ENDPOINT }}
         run: |
@@ -34,10 +34,10 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
           echo "- Version $(make showversion)" >> $GITHUB_STEP_SUMMARY
           echo "- Endpoint $URL" >> $GITHUB_STEP_SUMMARY
-      -  name: Test API Gateway URL
-         env:
-            URL: ${{ steps.get_api_url.outputs.ENDPOINT }}
-         run: curl -s -X POST $URL
+      - name: Test API Gateway URL
+        env:
+          URL: ${{ steps.get_api_url.outputs.ENDPOINT }}
+        run: curl -s -X POST $URL
       - env:
           LOGGROUP: ${{ steps.get_api_url.outputs.LOGGROUP }}
         run: aws logs tail $LOGGROUP
