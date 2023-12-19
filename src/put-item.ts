@@ -5,6 +5,8 @@ import {
 } from 'aws-lambda';
 
 import middy from '@middy/core';
+import httpErrorHandler from '@middy/http-error-handler';
+
 
 import { Logger, injectLambdaContext } from '@aws-lambda-powertools/logger';
 
@@ -65,6 +67,7 @@ export async function putItemHandler(
 export const newHandler = (args: HandlerArgs) => {
     return middy<APIGatewayProxyEventV2, APIGatewayProxyStructuredResultV2>()
         .use(injectLambdaContext(logger))
+        .use(httpErrorHandler())
         .handler(putItemHandler);
 };
 
