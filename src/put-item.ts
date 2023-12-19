@@ -4,33 +4,48 @@ import {
     Context
 } from 'aws-lambda';
 
-import { Logger } from '@aws-lambda-powertools/logger';
+import middy from '@middy/core';
+
+import { Logger, injectLambdaContext } from '@aws-lambda-powertools/logger';
 
 import { getParameter } from '@aws-lambda-powertools/parameters/ssm';
 
-const console = new Logger({ serviceName: 'put-item' });
+import { createError } from '@middy/util';
+
+export interface HandlerArgs {
+    environment?: string;
+}
+
+const logger = new Logger({ serviceName: 'put-item' });
 
 function logParameter(name: string): Promise<string> {
-    console.debug('getting ssm parameter', { name });
+    logger.debug('getting ssm parameter', { name });
     return getParameter(name) as Promise<string>;
 }
 
 export async function putItemHandler(
     event: APIGatewayProxyEventV2,
     context: Context
-
 ): Promise<APIGatewayProxyStructuredResultV2> {
 
-    console.info("putItemHandler called");
+    logger.info("putItemHandler called");
 
     if (event?.requestContext?.http?.method !== 'POST') {
-        console.error(`LOG: postMethod only accepts POST method, you tried: ${event?.requestContext?.http?.method} method.`);
+        logger.error(`LOG: postMethod only accepts POST method, you tried: ${event?.requestContext?.http?.method} method.`);
         throw new Error(`postMethod only accepts POST method, you tried: ${event?.requestContext?.http?.method} method.`);
     }
 
-    console.debug("will you see me?")
+    if (event.queryStringParameters?.['errorCode']) {
+        logger.error(`LOG: errorCode: ${event.queryStringParameters?.['errorCode']}`);
+        const errorCode = parseInt(event.queryStringParameters?.['errorCode']);
+        throw createError(errorCode, 'random message');
+    }
+
+    if (event.queryStringParameters?.['debugmsg']) {
+        logger.debug(`LOG: debugmsg: ${event.queryStringParameters?.['debugmsg']}`);
+    }
+
     const parameter = await logParameter('/dev/message');
-    console.debug("or mee?")
 
     return {
         statusCode: 200,
@@ -40,3 +55,13 @@ export async function putItemHandler(
         }),
     };
 };
+
+export const newHandler = (args: HandlerArgs) => {
+    return middy<APIGatewayProxyEventV2, APIGatewayProxyStructuredResultV2>()
+        .use(injectLambdaContext(logger))
+        .handler(putItemHandler);
+};
+
+export const handler = newHandler({
+    environment: process.env['ENV'] || '',
+});

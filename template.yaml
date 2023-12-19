@@ -21,7 +21,7 @@ Resources:
     Properties:
       Policies:
         - AmazonSSMReadOnlyAccess
-      Handler: src/put-item.putItemHandler
+      Handler: src/put-item.handler
       Runtime: nodejs18.x
       Architectures:
         - arm64
