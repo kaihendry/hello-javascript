@@ -1,9 +1,9 @@
 version: 2
 updates:
-  # Enable version updates for npm
-  - package-ecosystem: "npm"
-    # Look for `package.json` and `lock` files in the `root` directory
+  - package-ecosystem: "pnpm"
     directory: "/"
-    # Check the npm registry for updates every day (weekdays)
     schedule:
       interval: "daily"
+    ignore:
+      - dependency-name: "*" # Applies to all dependencies
+        update-types: ["version-update:semver-major"] # Ignores major version updates
