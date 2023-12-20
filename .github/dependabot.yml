@@ -7,3 +7,8 @@ updates:
     ignore:
       - dependency-name: "*" # Applies to all dependencies
         update-types: ["version-update:semver-major"] # Ignores major version updates
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
