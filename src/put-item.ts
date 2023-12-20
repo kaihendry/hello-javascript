@@ -12,6 +12,10 @@ import { getParameter } from "@aws-lambda-powertools/parameters/ssm";
 
 import { createError } from "@middy/util";
 
+import { Tracer } from '@aws-lambda-powertools/tracer';
+
+const tracer = new Tracer({ serviceName: 'demo' });
+
 export type SecretRetriever = (
   environmentName: string,
   parameterName: string,
@@ -32,11 +36,10 @@ async function logParameter(name: string): Promise<string> {
 export async function putItemHandler(
   event: APIGatewayProxyEventV2,
 ): Promise<APIGatewayProxyStructuredResultV2> {
-  logger.info("putItemHandler called");
-
+  tracer.getSegment();
   if (event?.requestContext?.http?.method !== "POST") {
     logger.error(
-      `LOG: postMethod only accepts POST method, you tried: ${event?.requestContext?.http?.method} method.`,
+      "not a POST", { method: event?.requestContext?.http?.method }
     );
     throw new Error(
       `postMethod only accepts POST method, you tried: ${event?.requestContext?.http?.method} method.`,
@@ -45,9 +48,9 @@ export async function putItemHandler(
 
   const errorCodeStr = event.queryStringParameters?.errorCode ?? "";
   if (errorCodeStr.trim()) {
-    logger.error(`LOG: errorCode: ${errorCodeStr}`);
     const errorCode = parseInt(errorCodeStr);
-    throw createError(errorCode, "random message");
+    logger.error("triggering error", { errorCode });
+    throw createError(errorCode, `random message from ${process.env.VERSION}`);
   }
 
   const debugMsg = event.queryStringParameters?.debugmsg ?? "";
