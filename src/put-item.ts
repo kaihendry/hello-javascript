@@ -12,9 +12,10 @@ import { getParameter } from "@aws-lambda-powertools/parameters/ssm";
 
 import { createError } from "@middy/util";
 
-import { Tracer } from '@aws-lambda-powertools/tracer';
+import { Tracer, captureLambdaHandler } from '@aws-lambda-powertools/tracer';
 
 const tracer = new Tracer({ serviceName: 'demo' });
+
 
 export type SecretRetriever = (
   environmentName: string,
@@ -74,6 +75,7 @@ export function newHandler(args: HandlerArgs) {
   return middy<APIGatewayProxyEventV2, APIGatewayProxyStructuredResultV2>()
     .use(injectLambdaContext(logger))
     .use(httpErrorHandler())
+    .use(captureLambdaHandler(tracer))
     .handler(putItemHandler);
 }
 

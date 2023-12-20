@@ -37,6 +37,9 @@ Resources:
           VERSION: !Ref Version
           POWERTOOLS_LOGGER_LOG_EVENT: true
           POWERTOOLS_LOG_LEVEL: INFO
+          POWERTOOLS_TRACE_ENABLED: true
+          POWERTOOLS_TRACER_CAPTURE_RESPONSE: true
+          POWERTOOLS_TRACER_CAPTURE_ERROR: true
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
