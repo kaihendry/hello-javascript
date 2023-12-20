@@ -9,7 +9,7 @@
     "@aws-sdk/client-ssm": "^3.476.0",
     "@middy/core": "^4.7.0",
     "@middy/http-error-handler": "^4.7.0",
-    "@middy/util": "^4.7.0",
+    "@middy/util": "^5.1.0",
     "esbuild": "^0.19.10"
   },
   "devDependencies": {
