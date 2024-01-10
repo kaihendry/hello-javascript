@@ -10,7 +10,7 @@
     "@aws-sdk/client-ssm": "^3.485.0",
     "@middy/core": "^3.6.2",
     "@middy/http-error-handler": "^5.2.2",
-    "@middy/util": "^4.7.0",
+    "@middy/util": "^5.2.2",
     "esbuild": "^0.19.11",
     "util@~3": "link:middy/util@~3"
   },
