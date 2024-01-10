@@ -36,12 +36,11 @@
     "typescript": "^5.3.3"
   },
   "scripts": {
-    "build": "echo 'Not applicable, run `sam build --beta-features` instead to build the stack'",
     "test": "npm run test:unit",
     "prettier-check": "prettier --check .",
     "lint": "eslint --ext .ts,.js --no-error-on-unmatched-pattern .",
     "lint-fix": "eslint --fix --ext .ts,.js --fix --no-error-on-unmatched-pattern .",
-    "test:unit": "export POWERTOOLS_DEV=true && npm run build && jest --silent",
+    "test:unit": "export POWERTOOLS_DEV=true && jest --silent --logHeapUsage",
     "test:e2e": "echo 'To be implemented ...'"
   },
   "lint-staged": {
