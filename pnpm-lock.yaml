@@ -21,8 +21,8 @@ dependencies:
     specifier: ^3.6.2
     version: 3.6.2
   '@middy/http-error-handler':
-    specifier: ^3.6.2
-    version: 3.6.2
+    specifier: ^5.2.2
+    version: 5.2.2
   '@middy/util':
     specifier: ^4.7.0
     version: 4.7.0
@@ -1654,21 +1654,21 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
-  /@middy/http-error-handler@3.6.2:
-    resolution: {integrity: sha512-2DeXNDdd56C2a7bsEqnvNZKI4un0FoIgXPpNvwyIfABDKTXwoQZptjlAoU+b4hv/T0kzSttdCkPowYobTKN61w==}
-    engines: {node: '>=14'}
+  /@middy/http-error-handler@5.2.2:
+    resolution: {integrity: sha512-r4Kil30Kzei2UjZRGzJokwz1YiBM17q1Vke+NbyfSXzZEfuC7bytDVc3HcoT2RT7aJlX80C36BDkj9KHENPEeA==}
+    engines: {node: '>=18'}
     dependencies:
-      '@middy/util': 3.6.2
-    dev: false
-
-  /@middy/util@3.6.2:
-    resolution: {integrity: sha512-zjyjF5BdSNnDlZbTvfQwwuUIs3H5PpN/R3wOAipXhaGD/SjpIUBcJJPLUQHySeHoZym1FC3MJYczJDbYQWKWdg==}
-    engines: {node: '>=14'}
+      '@middy/util': 5.2.2
     dev: false
 
   /@middy/util@4.7.0:
     resolution: {integrity: sha512-HUh0EOLGzBQjmJks4N12mmEebshtCUwyzdhk59UmAj97zzM0qn0exQvZDfbkY0pb/6b7sNnf7IpFww8Z6YxpWw==}
     engines: {node: '>=16'}
+    dev: false
+
+  /@middy/util@5.2.2:
+    resolution: {integrity: sha512-zZ399EfRPybeKtw0SAUMcggxHS9N5BFNPm/qLXHMYXwjJUUhNk8sZQGSih8h6wxawFX7cDHc1jEZwa/eQjT4Dw==}
+    engines: {node: '>=18'}
     dev: false
 
   /@nodelib/fs.scandir@2.1.5:
