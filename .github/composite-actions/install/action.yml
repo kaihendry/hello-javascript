@@ -18,4 +18,6 @@ runs:
         node-version: 18
         cache: npm
     - run: npm ci
+      shell: bash
     - run: npm test
+      shell: bash
