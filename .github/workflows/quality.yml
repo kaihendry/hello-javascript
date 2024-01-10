@@ -18,7 +18,7 @@ jobs:
         uses: ./.github/composite-actions/install
 
       - name: Run ESLint check
-        run: pnpm lint
+        run: npm run lint
 
   prettier:
     name: "Prettier"
@@ -31,4 +31,4 @@ jobs:
         uses: ./.github/composite-actions/install
 
       - name: Run Prettier check
-        run: pnpm prettier-check
+        run: npm run prettier-check

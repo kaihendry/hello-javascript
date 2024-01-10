@@ -12,10 +12,9 @@ import { getParameter } from "@aws-lambda-powertools/parameters/ssm";
 
 import { createError } from "@middy/util";
 
-import { Tracer, captureLambdaHandler } from '@aws-lambda-powertools/tracer';
+import { Tracer, captureLambdaHandler } from "@aws-lambda-powertools/tracer";
 
-const tracer = new Tracer({ serviceName: 'demo' });
-
+const tracer = new Tracer({ serviceName: "demo" });
 
 export type SecretRetriever = (
   environmentName: string,
@@ -39,9 +38,7 @@ export async function putItemHandler(
 ): Promise<APIGatewayProxyStructuredResultV2> {
   tracer.getSegment();
   if (event?.requestContext?.http?.method !== "POST") {
-    logger.error(
-      "not a POST", { method: event?.requestContext?.http?.method }
-    );
+    logger.error("not a POST", { method: event?.requestContext?.http?.method });
     throw new Error(
       `postMethod only accepts POST method, you tried: ${event?.requestContext?.http?.method} method.`,
     );

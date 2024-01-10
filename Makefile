@@ -4,7 +4,7 @@ VERSION = $(shell git rev-parse --abbrev-ref HEAD)-$(shell git rev-parse --short
 SAM_CLI_TELEMETRY=0
 
 build:
-	sam build --beta-features
+	sam build --beta-features --build-in-source
 
 deploy: build
 	sam deploy --no-progressbar --resolve-s3 \
