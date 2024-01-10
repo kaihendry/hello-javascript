@@ -7,7 +7,7 @@
     "@aws-lambda-powertools/logger": "^1.17.0",
     "@aws-lambda-powertools/parameters": "^1.17.0",
     "@aws-lambda-powertools/tracer": "^1.17.0",
-    "@aws-sdk/client-ssm": "^3.476.0",
+    "@aws-sdk/client-ssm": "^3.485.0",
     "@middy/core": "^3.6.2",
     "@middy/http-error-handler": "^3.6.2",
     "@middy/util": "^4.7.0",
