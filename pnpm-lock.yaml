@@ -24,8 +24,8 @@ dependencies:
     specifier: ^5.2.2
     version: 5.2.2
   '@middy/util':
-    specifier: ^4.7.0
-    version: 4.7.0
+    specifier: ^5.2.2
+    version: 5.2.2
   esbuild:
     specifier: ^0.19.11
     version: 0.19.11
@@ -1669,11 +1669,6 @@ packages:
     engines: {node: '>=18'}
     dependencies:
       '@middy/util': 5.2.2
-    dev: false
-
-  /@middy/util@4.7.0:
-    resolution: {integrity: sha512-HUh0EOLGzBQjmJks4N12mmEebshtCUwyzdhk59UmAj97zzM0qn0exQvZDfbkY0pb/6b7sNnf7IpFww8Z6YxpWw==}
-    engines: {node: '>=16'}
     dev: false
 
   /@middy/util@5.2.2:
