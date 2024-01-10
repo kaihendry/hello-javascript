@@ -9,7 +9,7 @@
     "@aws-lambda-powertools/tracer": "^1.17.0",
     "@aws-sdk/client-ssm": "^3.476.0",
     "@middy/core": "^3.6.2",
-    "@middy/http-error-handler": "^3.6.2",
+    "@middy/http-error-handler": "^5.2.2",
     "@middy/util": "^4.7.0",
     "esbuild": "^0.19.10",
     "util@~3": "link:middy/util@~3"
