@@ -8,15 +8,21 @@ import httpErrorHandler from "@middy/http-error-handler";
 
 import { Logger, injectLambdaContext } from "@aws-lambda-powertools/logger";
 
-import { getParameter } from "@aws-lambda-powertools/parameters/ssm";
+import { SSMClient, PutParameterCommand, GetParameterCommand } from '@aws-sdk/client-ssm';
+
+
+
+
 
 import { createError } from "@middy/util";
 
 import { Tracer, captureLambdaHandler } from "@aws-lambda-powertools/tracer";
 
+
 const tracer = new Tracer();
 tracer.getSegment();
 
+const ssm = tracer.captureAWSv3Client(new SSMClient({}));
 
 export type SecretRetriever = (
   environmentName: string,
@@ -85,5 +91,11 @@ export const handler = newHandler({
 export async function ssmSecretRetriever(
   parameter: string,
 ): Promise<string | null> {
-  return (await getParameter(parameter, { decrypt: true })) ?? null;
+  return (await getParameter(parameter)) ?? null;
 }
+
+const getParameter = async (parameterName: string): Promise<string | undefined> => {
+  const cmd = new GetParameterCommand({ Name: parameterName });
+  const { Parameter } = await ssm.send(cmd);
+  return Parameter?.Value;
+};
