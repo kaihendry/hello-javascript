@@ -23,6 +23,7 @@ Resources:
         - AmazonSSMReadOnlyAccess
       Handler: src/put-item.handler
       Runtime: nodejs18.x
+      Tracing: Active
       Architectures:
         - arm64
       Events:
@@ -40,6 +41,7 @@ Resources:
           POWERTOOLS_TRACE_ENABLED: true
           POWERTOOLS_TRACER_CAPTURE_RESPONSE: true
           POWERTOOLS_TRACER_CAPTURE_ERROR: true
+          POWERTOOLS_SERVICE_NAME: hello-ts
     Metadata:
       BuildMethod: esbuild
       BuildProperties:

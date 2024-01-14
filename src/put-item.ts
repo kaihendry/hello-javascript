@@ -14,7 +14,9 @@ import { createError } from "@middy/util";
 
 import { Tracer, captureLambdaHandler } from "@aws-lambda-powertools/tracer";
 
-const tracer = new Tracer({ serviceName: "demo" });
+const tracer = new Tracer();
+tracer.getSegment();
+
 
 export type SecretRetriever = (
   environmentName: string,
