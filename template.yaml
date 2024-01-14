@@ -9,6 +9,12 @@ Parameters:
     Type: String
     Description: The version of the application
 
+Globals:
+  Function:
+    Tracing: Active
+  Api:
+    TracingEnabled: True
+
 Resources:
   LogGroup:
     Type: AWS::Logs::LogGroup
