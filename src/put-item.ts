@@ -8,21 +8,14 @@ import httpErrorHandler from "@middy/http-error-handler";
 
 import { Logger, injectLambdaContext } from "@aws-lambda-powertools/logger";
 
-import { SSMClient, PutParameterCommand, GetParameterCommand } from '@aws-sdk/client-ssm';
-
-
-
-
+import { getParameter } from "@aws-lambda-powertools/parameters/ssm";
 
 import { createError } from "@middy/util";
 
 import { Tracer, captureLambdaHandler } from "@aws-lambda-powertools/tracer";
 
-
 const tracer = new Tracer();
 tracer.getSegment();
-
-const ssm = tracer.captureAWSv3Client(new SSMClient({}));
 
 export type SecretRetriever = (
   environmentName: string,
@@ -38,7 +31,10 @@ const logger = new Logger({ serviceName: "put-item" });
 
 async function logParameter(name: string): Promise<string> {
   logger.debug("getting ssm parameter", { name });
-  return await (getParameter(name) as Promise<string>);
+  const parameterValue = await tracer.captureAWSv3Client(async () => {
+    return await getParameter("/my/parameter", { maxAge: 30 });
+  })();
+  return parameterValue ?? "";
 }
 
 export async function putItemHandler(
@@ -93,9 +89,3 @@ export async function ssmSecretRetriever(
 ): Promise<string | null> {
   return (await getParameter(parameter)) ?? null;
 }
-
-const getParameter = async (parameterName: string): Promise<string | undefined> => {
-  const cmd = new GetParameterCommand({ Name: parameterName });
-  const { Parameter } = await ssm.send(cmd);
-  return Parameter?.Value;
-};
