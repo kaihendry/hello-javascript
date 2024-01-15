@@ -8,33 +8,27 @@ import httpErrorHandler from "@middy/http-error-handler";
 
 import { Logger, injectLambdaContext } from "@aws-lambda-powertools/logger";
 
-import { getParameter } from "@aws-lambda-powertools/parameters/ssm";
-
 import { createError } from "@middy/util";
 
 import { Tracer, captureLambdaHandler } from "@aws-lambda-powertools/tracer";
 
-const tracer = new Tracer();
-tracer.getSegment();
+import { SSMProvider } from "@aws-lambda-powertools/parameters/ssm";
 
-export type SecretRetriever = (
-  environmentName: string,
-  parameterName: string,
-) => Promise<string | null>;
+const tracer = new Tracer();
+
+// trace AWS ssm client
+const ssmProvider = new SSMProvider();
+tracer.captureAWSv3Client(ssmProvider.client);
 
 export interface HandlerArgs {
   environment?: string;
-  secretRetriever?: SecretRetriever;
 }
 
-const logger = new Logger({ serviceName: "put-item" });
+const logger = new Logger();
 
 async function logParameter(name: string): Promise<string> {
   logger.debug("getting ssm parameter", { name });
-  const parameterValue = await tracer.captureAWSv3Client(async () => {
-    return await getParameter("/my/parameter", { maxAge: 30 });
-  })();
-  return parameterValue ?? "";
+  return (await ssmProvider.get("/myapp/myparam")) ?? "";
 }
 
 export async function putItemHandler(
@@ -83,9 +77,3 @@ export function newHandler(args: HandlerArgs) {
 export const handler = newHandler({
   environment: process.env.ENV || "",
 });
-
-export async function ssmSecretRetriever(
-  parameter: string,
-): Promise<string | null> {
-  return (await getParameter(parameter)) ?? null;
-}
