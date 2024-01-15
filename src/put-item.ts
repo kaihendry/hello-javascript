@@ -27,8 +27,9 @@ export interface HandlerArgs {
 const logger = new Logger();
 
 async function logParameter(name: string): Promise<string> {
-  logger.debug("getting ssm parameter", { name });
-  return (await ssmProvider.get("/myapp/myparam")) ?? "";
+  const maxAge = 30;
+  logger.debug("getting ssm parameter", { name, maxAge });
+  return (await ssmProvider.get("/dev/message", { maxAge })) ?? "";
 }
 
 export async function putItemHandler(

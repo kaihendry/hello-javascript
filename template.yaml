@@ -25,6 +25,7 @@ Resources:
   putItemFunction:
     Type: AWS::Serverless::Function
     Properties:
+      Timeout: 10
       Policies:
         - AmazonSSMReadOnlyAccess
       Handler: src/put-item.handler
@@ -43,7 +44,7 @@ Resources:
         Variables:
           VERSION: !Ref Version
           POWERTOOLS_LOGGER_LOG_EVENT: true
-          POWERTOOLS_LOG_LEVEL: INFO
+          POWERTOOLS_LOG_LEVEL: DEBUG
           POWERTOOLS_TRACE_ENABLED: true
           POWERTOOLS_TRACER_CAPTURE_RESPONSE: true
           POWERTOOLS_TRACER_CAPTURE_ERROR: true
