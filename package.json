@@ -11,7 +11,9 @@
     "@middy/core": "^3.6.2",
     "@middy/http-error-handler": "^3.6.2",
     "@middy/util": "^4.7.0",
-    "esbuild": "^0.19.10"
+    "aws-lambda": "^1.0.7",
+    "aws-xray-sdk-core": "^3.5.3",
+    "esbuild": "^0.19.11"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",
