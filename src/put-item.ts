@@ -19,13 +19,8 @@ import { captureNativeFetch } from "./captureNativeFetch";
 const tracer = new Tracer();
 captureNativeFetch();
 
-// trace AWS ssm client
 const ssmProvider = new SSMProvider();
 tracer.captureAWSv3Client(ssmProvider.client);
-
-export interface HandlerArgs {
-  environment?: string;
-}
 
 const logger = new Logger();
 
@@ -33,13 +28,13 @@ async function logParameter(name: string): Promise<string> {
   const maxAge = 30;
   logger.debug("getting ssm parameter", { name, maxAge });
 
-  const subsegment = tracer.getSegment()?.addNewSubsegment('ssmOperation');
-
-  subsegment && subsegment.addAnnotation("ssmParameterName", name);
-
   const result = (await ssmProvider.get(name, { maxAge })) ?? "";
 
-  subsegment && subsegment.close();
+  // https://github.com/am29d/powertools-playground/blob/main/cdk-app/lib/app/tracer.ts#L23C4-L25C6
+  if (result) {
+    // this doesn't appear to set the annotation in the ssm operation :/
+    tracer.getSegment()?.addAnnotation('parameter', name);
+  }
 
   return result;
 }
@@ -72,13 +67,17 @@ export async function putItemHandler(
 
   tracer.putAnnotation("nonodefetch", true);
 
-  const parameter = await logParameter("/dev/message");
+  const msg1 = await logParameter("/dev/message");
+  const msg2 = await logParameter("/dev/message2");
 
   return {
     statusCode: 200,
+    headers: {
+      "X-Amzn-Trace-Id": tracer.getRootXrayTraceId() ?? "",
+    },
     body: JSON.stringify({
       version: process.env.VERSION,
-      message: parameter,
+      msg1, msg2,
       fetch: data.url,
     }),
   };
