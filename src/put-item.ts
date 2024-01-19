@@ -32,7 +32,16 @@ const logger = new Logger();
 async function logParameter(name: string): Promise<string> {
   const maxAge = 30;
   logger.debug("getting ssm parameter", { name, maxAge });
-  return (await ssmProvider.get("/dev/message", { maxAge })) ?? "";
+
+  const subsegment = tracer.getSegment()?.addNewSubsegment('ssmOperation');
+
+  subsegment && subsegment.addAnnotation("ssmParameterName", name);
+
+  const result = (await ssmProvider.get(name, { maxAge })) ?? "";
+
+  subsegment && subsegment.close();
+
+  return result;
 }
 
 export async function putItemHandler(
@@ -53,13 +62,7 @@ export async function putItemHandler(
     throw createError(errorCode, `random message from ${process.env.VERSION}`);
   }
 
-  const debugMsg = event.queryStringParameters?.debugmsg ?? "";
-  if (debugMsg.trim()) {
-    logger.debug(`LOG: debugmsg: ${debugMsg}`);
-  }
-
-  const response = await fetch("https://httpbin.org/delay/3");
-  // add content-length to the trace segment
+  const response = await fetch("https://httpbin.org/delay/1");
   const contentLength = response.headers.get("content-length");
   if (contentLength) {
     logger.debug("content-length", { contentLength });
@@ -81,15 +84,8 @@ export async function putItemHandler(
   };
 }
 
-export function newHandler(args: HandlerArgs) {
-  console.log("environment", args.environment);
-  return middy<APIGatewayProxyEventV2, APIGatewayProxyStructuredResultV2>()
-    .use(injectLambdaContext(logger))
-    .use(httpErrorHandler())
-    .use(captureLambdaHandler(tracer))
-    .handler(putItemHandler);
-}
-
-export const handler = newHandler({
-  environment: process.env.ENV || "",
-});
+export const handler = middy<APIGatewayProxyEventV2, APIGatewayProxyStructuredResultV2>()
+  .use(injectLambdaContext(logger))
+  .use(httpErrorHandler())
+  .use(captureLambdaHandler(tracer))
+  .handler(putItemHandler);

@@ -10,3 +10,9 @@
 # AWS resources
 
 <img src="https://s.natalian.org/2023-11-23/aws-resources.png">
+
+# Log SSM parameter name
+
+Can't figure this out! I don't want to wrap around the operation here...
+
+<img src="https://s.natalian.org/2024-01-19/ssmOperation.png">
