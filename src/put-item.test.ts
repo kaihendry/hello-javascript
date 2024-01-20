@@ -1,7 +1,7 @@
-import type { APIGatewayProxyEventV2 } from "aws-lambda";
-import { putItemHandler } from "./put-item";
 import { GetParameterCommand, SSMClient } from "@aws-sdk/client-ssm";
+import type { APIGatewayProxyEventV2 } from "aws-lambda";
 import { mockClient } from "aws-sdk-client-mock";
+import { putItemHandler } from "./put-item";
 
 describe("Test putItemHandler", function () {
   const ssmMock = mockClient(SSMClient);
@@ -34,6 +34,6 @@ describe("Test putItemHandler", function () {
       throw new Error("Result body is undefined or not a string");
     }
     const body = JSON.parse(result.body);
-    expect(body.message).toBe("hello from ssm!");
+    expect(body.msg1).toBe("hello from ssm!");
   });
 });
