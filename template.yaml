@@ -49,6 +49,7 @@ Resources:
           POWERTOOLS_TRACER_CAPTURE_RESPONSE: true
           POWERTOOLS_TRACER_CAPTURE_ERROR: true
           POWERTOOLS_SERVICE_NAME: hello-ts
+          POWERTOOLS_PARAMETERS_SSM_DECRYPT: true
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
