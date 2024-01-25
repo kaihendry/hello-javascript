@@ -13,7 +13,6 @@ import { Tracer, captureLambdaHandler } from "@aws-lambda-powertools/tracer";
 import { SSMProvider } from "@aws-lambda-powertools/parameters/ssm";
 
 const tracer = new Tracer();
-
 const ssmProvider = new SSMProvider();
 tracer.captureAWSv3Client(ssmProvider.client);
 
@@ -26,22 +25,18 @@ interface aadConfig {
   thing4: string,
 }
 
-function getAadConfig(ssmValues: { [key: string]: string }): aadConfig {
-  return {
-    thing1: ssmValues["thing1"] || "default",
-    thing2: ssmValues["thing2"] || "default",
-    thing3: ssmValues["thing3"] || "default",
-    thing4: ssmValues["thing4"] || "default",
-  };
-}
+const getAadConfig = (ssmValues: { [key: string]: string } = {}): aadConfig => ({
+  thing1: ssmValues.thing1 || "default",
+  thing2: ssmValues.thing2 || "default",
+  thing3: ssmValues.thing3 || "default",
+  thing4: ssmValues.thing4 || "default",
+});
 
 export async function putItemHandler(
   event: APIGatewayProxyEventV2,
 ): Promise<APIGatewayProxyStructuredResultV2> {
 
-  const values = await ssmProvider.getMultiple("/product/test/bar");
-  logger.debug("got ssm parameters", { values });
-  const config = getAadConfig(values ?? {});
+  const config = getAadConfig(await ssmProvider.getMultiple("/product/dev/bar"));
 
   return {
     statusCode: 200,
