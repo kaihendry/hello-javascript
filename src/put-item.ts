@@ -12,8 +12,6 @@ import { Tracer, captureLambdaHandler } from "@aws-lambda-powertools/tracer";
 
 import { SSMProvider } from "@aws-lambda-powertools/parameters/ssm";
 
-const env = process.env["ENV"] ?? "local";
-
 const tracer = new Tracer();
 const ssmProvider = new SSMProvider();
 tracer.captureAWSv3Client(ssmProvider.client);
@@ -27,23 +25,36 @@ interface aadConfig {
   thing4: string;
 }
 
-function getAadConfig(ssmValues: { [key: string]: string } = {}): aadConfig {
-  logger.info("Incoming SSM values:", ssmValues);
+export async function getAadConfig(path: string): Promise<aadConfig> {
+  const env = process.env["ENV"] ?? "local";
+  if (env === "local") {
+    return {
+      thing1: "local-thing1",
+      thing2: "local-thing2",
+      thing3: "local-thing3",
+      thing4: "local-thing4",
+    };
+  }
+
+  if (!path) {
+    throw new Error("path is required");
+  }
+
+  const ssmValues = await ssmProvider.getMultiple(path);
 
   return {
-    thing1: ssmValues.thing1 || "default",
-    thing2: ssmValues.thing2 || "default",
-    thing3: ssmValues.thing3 || "default",
-    thing4: ssmValues.thing4 || "default",
+    thing1: ssmValues?.thing1 || "default1",
+    thing2: ssmValues?.thing2 || "default2",
+    thing3: ssmValues?.thing3 || "default3",
+    thing4: ssmValues?.thing4 || "default4",
   };
 }
 
 export async function putItemHandler(
   event: APIGatewayProxyEventV2,
 ): Promise<APIGatewayProxyStructuredResultV2> {
-  const config = getAadConfig(
-    await ssmProvider.getMultiple(`/product/$env/bar`),
-  );
+  const env = process.env["ENV"] ?? "local";
+  const config = await getAadConfig(`/product/${env}/bar`);
 
   return {
     statusCode: 200,
