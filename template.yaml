@@ -43,6 +43,7 @@ Resources:
       Environment:
         Variables:
           VERSION: !Ref Version
+          ENV: dev
           POWERTOOLS_LOGGER_LOG_EVENT: true
           POWERTOOLS_LOG_LEVEL: DEBUG
           POWERTOOLS_TRACE_ENABLED: true
