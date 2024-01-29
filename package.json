@@ -39,7 +39,7 @@
   },
   "scripts": {
     "test": "npm run test:unit",
-    "prettier-check": "prettier --check .",
+    "prettier-check": "prettier --check src",
     "lint": "eslint --ext .ts,.js --no-error-on-unmatched-pattern .",
     "lint-fix": "eslint --fix --ext .ts,.js --fix --no-error-on-unmatched-pattern .",
     "test:unit": "export POWERTOOLS_DEV=true && jest --silent --logHeapUsage",
