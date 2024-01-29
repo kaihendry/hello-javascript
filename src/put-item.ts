@@ -50,9 +50,7 @@ export async function getAadConfig(path: string): Promise<aadConfig> {
   };
 }
 
-export async function putItemHandler(
-  event: APIGatewayProxyEventV2,
-): Promise<APIGatewayProxyStructuredResultV2> {
+export async function putItemHandler(): Promise<APIGatewayProxyStructuredResultV2> {
   const env = process.env["ENV"] ?? "local";
   const config = await getAadConfig(`/product/${env}/bar`);
 
