@@ -25,7 +25,7 @@ interface aadConfig {
   thing4: string;
 }
 
-export async function getAadConfig(path: string): Promise<aadConfig> {
+export async function getAadConfig(aadName: string): Promise<aadConfig> {
   const env = process.env["ENV"] ?? "local";
   if (env === "local") {
     return {
@@ -36,11 +36,11 @@ export async function getAadConfig(path: string): Promise<aadConfig> {
     };
   }
 
-  if (!path) {
-    throw new Error("path is required");
+  if (!aadName) {
+    throw new Error("aadName is required");
   }
 
-  const ssmValues = await ssmProvider.getMultiple(path);
+  const ssmValues = await ssmProvider.getMultiple(`/product/${env}/${aadName}`);
 
   return {
     thing1: ssmValues?.thing1 || "default1",
@@ -51,8 +51,7 @@ export async function getAadConfig(path: string): Promise<aadConfig> {
 }
 
 export async function putItemHandler(): Promise<APIGatewayProxyStructuredResultV2> {
-  const env = process.env["ENV"] ?? "local";
-  const config = await getAadConfig(`/product/${env}/bar`);
+  const config = await getAadConfig("bar");
 
   return {
     statusCode: 200,
