@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   id-token: write
@@ -34,15 +35,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
           echo "- Version $(make showversion)" >> $GITHUB_STEP_SUMMARY
           echo "- Endpoint $URL" >> $GITHUB_STEP_SUMMARY
-      - name: Install Hey
-        run: |
-          wget https://hey-release.s3.us-east-2.amazonaws.com/hey_linux_amd64
-          chmod +x hey_linux_amd64
-          sudo mv hey_linux_amd64 /bin/hey
-      - name: Test API Gateway URL
-        env:
-          URL: ${{ steps.get_api_url.outputs.ENDPOINT }}
-        run: hey -m POST $URL
+          curl -i -X POST $URL
       - env:
           LOGGROUP: ${{ steps.get_api_url.outputs.LOGGROUP }}
         run: aws logs tail $LOGGROUP
