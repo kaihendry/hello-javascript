@@ -54,8 +54,31 @@ export async function getAadConfig(aadName: string): Promise<aadConfig> {
   };
 }
 
+async function simulateDelay(duration: number): Promise<void> {
+  logger.info(`Simulating delay of ${duration}ms`);
+  return new Promise((resolve) => setTimeout(resolve, duration));
+}
+
 export async function putItemHandler(): Promise<APIGatewayProxyStructuredResultV2> {
   logger.info("putItemHandler");
+  // delay for one second and create and xray subsegment for it
+  const subsegment = tracer.getSegment()?.addNewSubsegment("simulateDelay");
+
+  await simulateDelay(250);
+
+  const subsegment2 = tracer.getSegment()?.addNewSubsegment("anotherDelay");
+
+  await simulateDelay(250);
+
+  // Close the subsegment once the delay is over
+  if (subsegment2) {
+    subsegment2.close();
+  }
+
+  // Close the subsegment once the delay is over
+  if (subsegment) {
+    subsegment.close();
+  }
 
   const config = await getAadConfig("bar");
 

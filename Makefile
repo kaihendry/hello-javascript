@@ -14,6 +14,10 @@ deploy: build
 validate:
 	sam validate
 
+local:
+	sam build --beta-features
+	sam local start-api
+
 destroy:
 	aws cloudformation delete-stack --stack-name $(STACK)
 
