@@ -7,7 +7,6 @@ import middy from "@middy/core";
 import httpErrorHandler from "@middy/http-error-handler";
 
 import { Logger, injectLambdaContext } from "@aws-lambda-powertools/logger";
-
 import { Tracer, captureLambdaHandler } from "@aws-lambda-powertools/tracer";
 
 import { SSMProvider } from "@aws-lambda-powertools/parameters/ssm";
@@ -16,7 +15,9 @@ const tracer = new Tracer();
 const ssmProvider = new SSMProvider();
 tracer.captureAWSv3Client(ssmProvider.client);
 
+// Log Xray calls
 const logger = new Logger();
+tracer.provider.setLogger(logger);
 
 interface aadConfig {
   thing1: string;
@@ -42,7 +43,10 @@ export async function getAadConfig(aadName: string): Promise<aadConfig> {
 
   const ssmValues = await ssmProvider.getMultiple(`/product/${env}/${aadName}`);
 
+  // these can be secrets so we can't just log them
+
   return {
+    // not sure it makes sense to have defaults here
     thing1: ssmValues?.thing1 || "default1",
     thing2: ssmValues?.thing2 || "default2",
     thing3: ssmValues?.thing3 || "default3",
@@ -51,6 +55,8 @@ export async function getAadConfig(aadName: string): Promise<aadConfig> {
 }
 
 export async function putItemHandler(): Promise<APIGatewayProxyStructuredResultV2> {
+  logger.info("putItemHandler");
+
   const config = await getAadConfig("bar");
 
   return {
