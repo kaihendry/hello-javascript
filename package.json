@@ -4,9 +4,9 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "@aws-lambda-powertools/logger": "^1.18.1",
-    "@aws-lambda-powertools/parameters": "^1.18.1",
-    "@aws-lambda-powertools/tracer": "^1.18.1",
+    "@aws-lambda-powertools/logger": "^2.0.0",
+    "@aws-lambda-powertools/parameters": "^2.0.0",
+    "@aws-lambda-powertools/tracer": "^2.0.0",
     "@aws-sdk/client-ssm": "^3.540.0",
     "@middy/core": "^3.6.2",
     "@middy/http-error-handler": "^3.6.2",

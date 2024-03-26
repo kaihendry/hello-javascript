@@ -6,8 +6,11 @@ import {
 import middy from "@middy/core";
 import httpErrorHandler from "@middy/http-error-handler";
 
-import { Logger, injectLambdaContext } from "@aws-lambda-powertools/logger";
-import { Tracer, captureLambdaHandler } from "@aws-lambda-powertools/tracer";
+import { Logger } from "@aws-lambda-powertools/logger";
+import { injectLambdaContext } from "@aws-lambda-powertools/logger/middleware";
+
+import { Tracer } from "@aws-lambda-powertools/tracer";
+import { captureLambdaHandler } from "@aws-lambda-powertools/tracer/middleware";
 
 import { SSMProvider } from "@aws-lambda-powertools/parameters/ssm";
 
