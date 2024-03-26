@@ -16,3 +16,12 @@
 Can't figure this out! I don't want to wrap around the operation here...
 
 <img src="https://s.natalian.org/2024-01-19/ssmOperation.png">
+
+# Node version
+
+Set in two places:
+
+❯ grep nodejs template.yaml
+Runtime: nodejs18.x
+❯ grep version .github/composite-actions/install/action.yml
+node-version: "20"
