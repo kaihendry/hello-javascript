@@ -16,7 +16,7 @@
   "devDependencies": {
     "@types/aws-lambda": "^8.10.137",
     "@types/jest": "^29.5.12",
-    "@types/node": "^20.12.6",
+    "@types/node": "^20.12.8",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "aws-sdk-client-mock": "^3.1.0",
