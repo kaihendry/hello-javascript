@@ -11,7 +11,7 @@
     "@middy/util": "^4.7.0",
     "aws-lambda": "^1.0.7",
     "aws-xray-sdk-core": "^3.10.2",
-    "esbuild": "^0.24.0"
+    "esbuild": "^0.24.2"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.146",
